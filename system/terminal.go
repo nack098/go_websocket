@@ -2,6 +2,7 @@ package system
 
 import (
 	"fmt"
+	result "go_websocket/type"
 	"os"
 	"os/signal"
 	"syscall"
@@ -9,10 +10,13 @@ import (
 	"golang.org/x/term"
 )
 
-func terminalRestore() {
+func terminalRestore() result.Result {
 	if oldState != nil {
-		term.Restore(int(os.Stdin.Fd()), oldState)
+		if err := term.Restore(int(os.Stdin.Fd()), oldState); err != nil {
+			return result.Err(err)
+		}
 	}
+	return result.Ok(nil)
 }
 
 func terminateListener(signal chan os.Signal) {

@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"fmt"
 	"os"
 	"syscall"
 )
@@ -16,7 +17,11 @@ func (b *quitButton) action() {
 	// TODO: Handle Error
 	proc, _ := os.FindProcess(os.Getpid())
 
-	proc.Signal(syscall.SIGTERM)
+	err := proc.Signal(syscall.SIGTERM)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
 
 func (b *quitButton) getName() *string {
