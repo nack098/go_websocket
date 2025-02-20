@@ -44,7 +44,9 @@ func mainLoop(_ any) result.Result {
 }
 
 func cleanup() {
-	terminalRestore()
+	if err := terminalRestore().Error(); err != nil {
+		fmt.Println(err)
+	}
 	clearScreen()
 	showCursor()
 }
