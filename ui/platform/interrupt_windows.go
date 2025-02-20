@@ -8,15 +8,9 @@ import (
 )
 
 func Interrupt() error {
-	dll, err := syscall.LoadDLL("kernel32.dll")
-	if err != nil {
-		return fmt.Errorf("unable to load dll: %v", err)
-	}
-	procedure, err := dll.FindProc("GenerateConsoleCtrlEvent")
-	if err != nil {
-		return fmt.Errorf("unable to find procedure: %v", err)
-	}
-	result, _, err := procedure.Call(syscall.CTRL_BREAK_EVENT, uintptr(syscall.Getpid()))
+	kernel32 := syscall.NewLazyDLL("kernel32.dll")
+	generateConsoleCtrlEvent := kernel32.NewProc("GenerateConsoleCtrlEvent")
+	result, _, err := generateConsoleCtrlEvent.Call(syscall.CTRL_BREAK_EVENT, 0)
 	if result == 0 {
 		return fmt.Errorf("unable to interrupt process: %v", err)
 	}
