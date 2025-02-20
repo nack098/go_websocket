@@ -10,8 +10,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup environment
-        uses: actions/setup-go@v5.3.0
+      # - name: Setup environment
+      #   uses: actions/setup-go@v5.3.0
       - name: Project check
         uses: securego/gosec@v2.22.1
         with:
