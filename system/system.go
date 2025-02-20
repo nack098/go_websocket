@@ -49,11 +49,12 @@ func cleanup() {
 	}
 	clearScreen()
 	showCursor()
+	fmt.Print("\033[2J")
 }
 
 func Start() {
 	defer cleanup()
-
+	fmt.Print("\033[2J")
 	if err := systemInit(
 		nil,
 	).Bind(
