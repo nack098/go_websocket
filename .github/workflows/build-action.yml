@@ -104,7 +104,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: ./artifacts/**/*
-          tag_name: ${{ env.VERSION }}
-          release_name: Release-${{ env.VERSION }}
+          tag_name: Release-${{ env.VERSION }}
+          release_name: draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
