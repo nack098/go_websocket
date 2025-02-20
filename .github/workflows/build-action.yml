@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 jobs:
   code-check:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Setup environment
         uses: actions/setup-go@v5.3.0
