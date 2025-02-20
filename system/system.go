@@ -5,7 +5,6 @@ import (
 	result "go_websocket/type"
 	"go_websocket/ui"
 	"os"
-	"time"
 
 	"golang.org/x/term"
 )
@@ -28,17 +27,29 @@ func systemInit(_ any) result.Result {
 	hideCursor()
 
 	window = &Window{
-		isRunning: true,
+		isRunning:   true,
+		renderCount: 0,
 	}
 	return result.Ok(nil)
 }
 
 func mainLoop(_ any) result.Result {
 	for window.isRunning {
-		ui.Update()
-		clearScreen()
-		ui.Render()
-		time.Sleep(100000)
+		select {
+		case <-listener:
+			window.renderCount++
+			ui.Update()
+			clearScreen()
+			ui.Render()
+		default:
+			if window.renderCount == 0 {
+				window.renderCount++
+				ui.Update()
+				clearScreen()
+				ui.Render()
+			}
+			continue
+		}
 	}
 	return result.Ok(nil)
 }

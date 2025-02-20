@@ -28,9 +28,13 @@ func getInput() {
 			window.isRunning = false
 		}
 		ui.HandleInput(&buf)
+		listener <- true
 	}
 }
 
 func startInputListener() {
+	listener = make(chan bool)
 	go getInput()
 }
+
+var listener chan bool = nil
