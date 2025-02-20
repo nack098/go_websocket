@@ -5,7 +5,8 @@ import (
 )
 
 type Window struct {
-	isRunning bool
+	isRunning   bool
+	renderCount int
 }
 
 func startResizeListenner() {
