@@ -37,19 +37,19 @@ func (m *mainMenu) HandleInput(key *string) {
 	}
 }
 
-func (m *mainMenu) banner() {
+func (m *mainMenu) banner() string {
 	banner := `+-------------------------+
 |  🕮 Chat room simulator  |
-+-------------------------+
-`
++-------------------------+`
 	buf_split := strings.Split(banner, "\n")
+	var buf string
 	for i, line := range buf_split {
-		fmt.Printf("\033[%d;%dH%s\r\n", ui.surfaceHeight/2+i+1-len(buf_split), ui.surfaceWidth/2-14, line)
+		buf += fmt.Sprintf("\033[%d;%dH\033[2K%s", ui.surfaceHeight/2+i+1-len(buf_split), ui.surfaceWidth/2-14, line)
 	}
+	return buf
 }
 
-func (m *mainMenu) renderItems() {
-	m.banner()
+func (m *mainMenu) selection() string {
 	var buf string
 	for i, item := range m.items {
 		str := *item.getName()
@@ -57,11 +57,25 @@ func (m *mainMenu) renderItems() {
 			// str = "☛  " + str
 			str = ">>" + str + "<<"
 		}
-		buf += str + "\r\n"
+		buf += fmt.Sprintf("\033[%d;%dH\033[2K%s", ui.surfaceHeight/2+i+3-len(m.items), (ui.surfaceWidth-len(str))/2-2, str)
 	}
-	buf_split := strings.Split(buf, "\r\n")
-	for i, line := range buf_split {
-		fmt.Printf("\033[%d;%dH%s\r\n", ui.surfaceHeight/2+i+3-len(buf_split), (ui.surfaceWidth-len(line))/2-2, line)
+	return buf
+}
+
+func (m *mainMenu) renderItems() {
+	// First render
+	if !isBannerRender {
+		fmt.Print(m.banner())
+		fmt.Print(m.selection())
+		isBannerRender = true
+		lastSelection = m.index
+		return
+	}
+
+	// Updating
+	if m.index != lastSelection {
+		fmt.Print(m.selection())
+		lastSelection = m.index
 	}
 }
 
@@ -89,4 +103,8 @@ func (m *mainMenu) get() UI {
 	return MainMenu
 }
 
-var MainMenu *mainMenu = nil
+var (
+	MainMenu       *mainMenu = nil
+	isBannerRender           = false
+	lastSelection            = 0
+)

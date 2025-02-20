@@ -30,6 +30,10 @@ func startTerminateListener() {
 	go terminateListener(termSig)
 }
 
+func clearScreen() {
+	fmt.Print("\033[H")
+}
+
 func hideCursor() {
 	fmt.Print("\033[?25l")
 }

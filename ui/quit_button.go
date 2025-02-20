@@ -2,8 +2,7 @@ package ui
 
 import (
 	"fmt"
-	"os"
-	"syscall"
+	"go_websocket/ui/platform"
 )
 
 type quitButton struct {
@@ -14,13 +13,9 @@ func (b *quitButton) render() {
 }
 
 func (b *quitButton) action() {
-	// TODO: Handle Error
-	proc, _ := os.FindProcess(os.Getpid())
-
-	err := proc.Signal(syscall.SIGTERM)
+	err := platform.Interrupt()
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
 	}
 }
 
