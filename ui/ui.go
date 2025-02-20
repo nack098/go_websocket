@@ -3,9 +3,7 @@ package ui
 import (
 	"fmt"
 	result "go_websocket/type"
-	"os"
-
-	"golang.org/x/term"
+	"go_websocket/ui/platform"
 )
 
 type uiState struct {
@@ -41,7 +39,7 @@ func getUI(currentUI UIEnum) (UI, error) {
 }
 
 func Init(_ any) result.Result {
-	width, height, err := term.GetSize(int(os.Stdin.Fd()))
+	width, height, err := platform.GetTermSize()
 	if err != nil {
 		return result.Err(fmt.Errorf("could not get terminal size: %v", err))
 	}
@@ -58,7 +56,7 @@ func Init(_ any) result.Result {
 }
 
 func Resize(_ any) result.Result {
-	width, height, err := term.GetSize(int(os.Stdin.Fd()))
+	width, height, err := platform.GetTermSize()
 	if err != nil {
 		return result.Err(fmt.Errorf("could not get terminal size: %v", err))
 	}

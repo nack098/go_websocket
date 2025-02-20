@@ -38,7 +38,7 @@ func mainLoop(_ any) result.Result {
 		ui.Update()
 		clearScreen()
 		ui.Render()
-		time.Sleep(time.Millisecond)
+		time.Sleep(100000)
 	}
 	return result.Ok(nil)
 }

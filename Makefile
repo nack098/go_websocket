@@ -1,5 +1,5 @@
 NAME		=	go-websocket
-VERSION		=	v0.0.1
+VERSION		=	v0.0.2
 BUILD_DIR	=	build/
 
 BIN_PATH	=	${BUILD_DIR}/${NAME}
