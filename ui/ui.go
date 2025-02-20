@@ -18,6 +18,7 @@ type UI interface {
 	Update()
 	Render()
 
+	setRender(bool)
 	get() UI
 }
 
@@ -64,6 +65,8 @@ func Resize(_ any) result.Result {
 	ui.surfaceWidth = width
 	ui.surfaceHeight = height
 
+	fmt.Print("\033[2J")
+	ui.current.setRender(false)
 	return result.Ok(nil)
 }
 

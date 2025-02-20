@@ -64,10 +64,10 @@ func (m *mainMenu) selection() string {
 
 func (m *mainMenu) renderItems() {
 	// First render
-	if !isBannerRender {
+	if !isRender {
 		fmt.Print(m.banner())
 		fmt.Print(m.selection())
-		isBannerRender = true
+		isRender = true
 		lastSelection = m.index
 		return
 	}
@@ -103,8 +103,12 @@ func (m *mainMenu) get() UI {
 	return MainMenu
 }
 
+func (m *mainMenu) setRender(value bool) {
+	isRender = value
+}
+
 var (
-	MainMenu       *mainMenu = nil
-	isBannerRender           = false
-	lastSelection            = 0
+	MainMenu      *mainMenu = nil
+	isRender                = false
+	lastSelection           = 0
 )
